@@ -1,0 +1,13 @@
+alias: notify_action_garage_close
+trigger:
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      action: 'CLOSE_GARAGE'
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: 'Close garage'
+action:
+  - service: cover.close_cover
+    entity_id: cover.garage_door

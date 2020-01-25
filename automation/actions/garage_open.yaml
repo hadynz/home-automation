@@ -1,0 +1,9 @@
+alias: notify_action_garage_open
+trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: 'Open garage'
+action:
+  - service: cover.open_cover
+    entity_id: cover.garage_door

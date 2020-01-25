@@ -1,0 +1,11 @@
+entrance_lights_on:
+  alias: Turn entrance lights on
+  sequence:
+    - alias: Turn on entrance light
+      service: switch.turn_on
+      data:
+        entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_15 # Entrance and door light
+    - alias: Turn on stairs light
+      service: switch.turn_on
+      data:
+        entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_12 # Stairs light

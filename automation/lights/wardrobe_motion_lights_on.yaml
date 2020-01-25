@@ -1,0 +1,10 @@
+alias: wardrobe_motion_lights_on
+trigger:
+  - platform: state
+    entity_id: binary_sensor.wyzesense_7787b931 # Wardrobe motion sense
+    to: 'on'
+action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.aeon_labs_zw116_nano_switch_switch # Wardrobe light
+     

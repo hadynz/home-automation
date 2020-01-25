@@ -1,0 +1,12 @@
+alias: notify_when_garage_closed
+trigger:
+  - platform: state
+    entity_id: binary_sensor.wyzesense_77937934 # Garage door sensor
+    to: 'off'
+action:
+  - service: notify.all_devices
+    data:
+      message: 'Garage door was closed at {{now().strftime("%-I:%M %p")}}'
+      data:
+        push:
+          thread-id: "garage-door-closed"

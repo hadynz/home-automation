@@ -1,0 +1,12 @@
+alias: notify_when_garage_opened
+trigger:
+  - platform: state
+    entity_id: binary_sensor.wyzesense_77937934 # Garage door sensor
+    to: 'on'
+action:
+  - service: notify.all_devices
+    data:
+      message: 'Garage door was opened at {{now().strftime("%-I:%M %p")}}'
+      data:
+        push:
+          thread-id: "garage-door-opened"

@@ -1,0 +1,15 @@
+binary_sensor.wyzesense_77938e48:
+  friendly_name: Pantry door
+  device_class: door
+
+binary_sensor.wyzesense_77937934:
+  friendly_name: Garage door
+  device_class: door
+  
+binary_sensor.wyzesense_7793849b:
+  friendly_name: Bedroom sliding door
+  device_class: door
+
+binary_sensor.wyzesense_779382a2:
+  friendly_name: Living double sliding door
+  device_class: door

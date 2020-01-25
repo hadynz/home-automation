@@ -1,0 +1,47 @@
+switch.aeon_labs_zw132_dual_nano_switch_switch_4:
+  friendly_name: Master bedroom lights
+
+switch.aeon_labs_zw132_dual_nano_switch_switch_5:
+  friendly_name: Master bedroom - bed lights
+
+switch.aeon_labs_zw132_dual_nano_switch_switch_6:
+  friendly_name: Master bedroom - mirror lights
+
+switch.aeon_labs_zw116_nano_switch_switch_2:
+  friendly_name: Master bedroom - Hady's spot
+  
+switch.aeon_labs_zw116_nano_switch_switch_3:
+  friendly_name: Master bedroom - Dina's spot
+
+switch.aeon_labs_zw116_nano_switch_switch:
+  friendly_name: Wardrobe light
+
+switch.aeon_labs_zw132_dual_nano_switch_switch_2:
+  friendly_name: Kitchen lights
+
+switch.aeon_labs_zw132_dual_nano_switch_switch_3:
+  friendly_name: Pantry lights
+
+switch.aeon_labs_zw132_dual_nano_switch_switch_7:
+  friendly_name: Lounge - left lights
+
+switch.aeon_labs_zw132_dual_nano_switch_switch_8:
+  friendly_name: Lounge - right lights
+  
+switch.aeon_labs_zw132_dual_nano_switch_switch_10:
+  friendly_name: Stairs - wall lights
+
+switch.aeon_labs_zw132_dual_nano_switch_switch_11:
+  friendly_name: Stairs - pendant lights
+
+switch.aeon_labs_zw132_dual_nano_switch_switch_12:
+  friendly_name: Stairs lights
+
+switch.aeon_labs_zw132_dual_nano_switch_switch_13:
+  friendly_name: Door light
+
+switch.aeon_labs_zw132_dual_nano_switch_switch_14:
+  friendly_name: Entrance light
+
+switch.aeon_labs_zw132_dual_nano_switch_switch_15:
+  friendly_name: Entrance and door light

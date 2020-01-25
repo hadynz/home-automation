@@ -1,0 +1,166 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Kurumba Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: -36.848318
+  longitude: 174.872071
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 16
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Pacific/Auckland
+  # Customization file
+  customize: !include_dir_merge_named customize
+
+# Turn on discovery module (required in particular for @Konnected_io)
+discovery:
+
+# Configure Aeotec Z-Stick Gen5
+#zwave:
+#  usb_path: /dev/ttyACM0
+
+# Configure Samsung TV
+media_player:
+  - platform: samsungtv_custom
+    host: 192.168.1.4
+    port: 8002
+    name: 'Samsung TV'
+    mac: '70:2a:d5:8a:6b:2c'
+    protocol: ws
+  - platform: spotify
+    client_id: 37bbbbec6c9848ac8dbfb2fd75233087
+    client_secret: 5ce17f204ac548ccb41e0106612442b9
+        
+#logger:
+#  logs:
+#    homeassistant.components.samsungtv: debug
+
+# Konnected_io configuration
+# konnected:
+#   access_token: 709f8bbf-c695-4d96-88b5-87dec488eb8e
+#   devices:
+#     - id: cc50e3dc8e9d
+#       binary_sensors:
+#         - pin: 1
+#           type: motion
+#           name: 'Entry motion'
+#         - pin: 2
+#           type: motion
+#           name: 'Main bedroom motion'
+#         - pin: 5
+#           type: motion
+#           name: 'Lounge motion'
+#       switches:
+#         - zone: out
+#           name: 'Alarm siren'
+#           activation: low
+#       discovery: false
+#       host: 192.168.1.2
+#       port: 22454
+
+person:
+  - name: Hady
+    id: 09ddc9179a164a97bfa299fcac8eae1c
+    user_id: 7d5a46518c4042e78cf881f568aaea26
+    device_trackers:
+      - device_tracker.life360_hady_osman
+
+  - name: Dina
+    id: f4d70ea66e5c42b984c27247af214bfa
+    user_id: d8def70d37d64843b571bfaf79ed6d3b
+    device_trackers:
+      - device_tracker.life360_dina
+
+#google_assistant:
+#  project_id: kurumba-smart-home
+#  api_key: 103348924575307066432
+#  secure_devices_pin: 1234
+#  exposed_domains:
+#    - climate
+#    - cover
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+automation: !include_dir_list automation
+cover: !include cover.yaml
+group: !include groups.yaml
+script: !include_dir_merge_named scripts
+sensor: !include_dir_list sensors
+
+# Heat pump configuration
+climate:
+  - platform: mitsubishi
+    ip_address: 192.168.1.5
+    name: 'Mitsubishi Heat Pump'
+    fan_modes:
+      - 'minimum'
+      - 'low'
+      - 'medium'
+      - 'high'
+      - 'max'
+
+# Life 360 configuration
+life360:
+  accounts:
+    - username: hadyos@gmail.com
+      password: u2pvlar36a87umpewkm1
+  members:
+    exclude: ['life360 hoda', 'life360 mohamed', 'life360 walaa', 'life360 hady', 'hoda', 'hoda el-walili', 'hoda.elwalili@gmail.com']
+
+zone:
+  - name: Home
+    latitude: -36.848360
+    longitude: 174.872060
+    radius: 100
+    icon: mdi:home
+
+  - name: Xero
+    latitude: -36.852450
+    longitude: 174.782110
+    radius: 100
+    icon: mdi:briefcase-outline
+
+  - name: TWG
+    latitude: -36.800790
+    longitude: 174.757910
+    radius: 50
+    icon: mdi:briefcase-outline
+
+  - name: Glendowie
+    latitude: -36.860600
+    longitude: 174.869003
+    radius: 500
+
+notify:
+  - name: ALL_DEVICES
+    platform: group
+    services:
+      - service: mobile_app_hady_s_iphonex
+      - service: mobile_app_hadys_ipad_pro
+      - service: mobile_app_dina_s_iphone
+
+ios:
+  push:
+    categories:
+      - name: Open garage
+        identifier: 'ios-open-garage-category'
+        actions:
+          - identifier: 'CLOSE_GARAGE'
+            title: 'Close garage'
+            activationMode: 'background'
+            authenticationRequired: true
+            destructive: true
+          - identifier: 'LEAVE OPEN'
+            title: 'Leave open'
+            activationMode: 'background'
+            authenticationRequired: true
+
+binary_sensor:
+  - platform: wyzesense
+    device: "/dev/hidraw0"

@@ -1,0 +1,19 @@
+alias: notify_if_garage_open
+trigger:
+  - platform: time_pattern
+    minutes: '/15'
+    seconds: 0
+condition:
+  - condition: state
+    entity_id: binary_sensor.wyzesense_77937934 # Garage door sensor
+    state: 'on'
+action:
+  - service: notify.all_devices
+    data:
+      title: 'Remember the garage door is open'
+      message: 'Do you want to close it?'
+      data:
+        push:
+          category: 'ios-open-garage-category'
+        apns_headers:
+          'apns-collapse-id': 'garage-door-open'

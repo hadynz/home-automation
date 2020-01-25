@@ -1,0 +1,20 @@
+platform: template
+sensors:
+  garage_status:
+    friendly_name: Garage door status
+    value_template: >-
+      {% if states.cover.garage_door %}
+        {% if states.cover.garage_door.attributes["door_state"] == "open" %}
+          Open
+        {% elif states.cover.garage_door.attributes["door_state"] == "closed" %}
+          Closed
+        {% elif states.cover.garage_door.attributes["door_state"] == "opening" %}
+          Opening
+        {% elif states.cover.garage_door.attributes["door_state"] == "closing" %}
+          Closing
+        {% else %}
+          Unknown
+        {% endif %}
+      {% else %}
+        N/A
+      {% endif %}
