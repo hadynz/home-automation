@@ -1,29 +1,19 @@
 # Homeassistant files and folders
-homeassistant/.HA_VERSION
-homeassistant/.uuid
-homeassistant/*.log
-homeassistant/*.db
-homeassistant/tts/*
-homeassistant/secrets.yaml
-homeassistant/plex.conf
-homeassistant/options.xml
-homeassistant/*zw*
-homeassistant/OZW*
-homeassistant/.wink.conf
-homeassistant/.august.conf
-homeassistant/entity_registry.yaml
-homeassistant/deps/*
-homeassistant/.storage/*
+.HA_VERSION
+.cloud
+.spotify-token-cache
+.storage/*
+*zw*
+OZW*
+*.log
+*.db
+node-red
+options.xml
+*.sqlite
+tts/*
+*.xml
 
 # Sensitive YAML files
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
-
-**/__pycache__/**
-unifi/*
-caddy/*
-config.ini
-default.json
-node_modules
-.vscode/*
