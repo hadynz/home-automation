@@ -1,0 +1,2 @@
+platform: wyzesense
+device: "/dev/hidraw0"
