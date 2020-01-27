@@ -1,0 +1,22 @@
+- name: Home
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  radius: 100
+  icon: mdi:home
+
+- name: Xero
+  latitude: -36.852450
+  longitude: 174.782110
+  radius: 100
+  icon: mdi:briefcase-outline
+
+- name: TWG
+  latitude: -36.800790
+  longitude: 174.757910
+  radius: 50
+  icon: mdi:briefcase-outline
+
+- name: Glendowie
+  latitude: -36.860600
+  longitude: 174.869003
+  radius: 500

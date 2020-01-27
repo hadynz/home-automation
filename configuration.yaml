@@ -93,6 +93,7 @@ cover: !include cover.yaml
 group: !include groups.yaml
 script: !include_dir_merge_named scripts
 sensor: !include_dir_list sensors
+zone: !include configuration/zones.yaml
 
 # Heat pump configuration
 climate:
@@ -113,30 +114,6 @@ life360:
       password: u2pvlar36a87umpewkm1
   members:
     exclude: ['life360 hoda', 'life360 mohamed', 'life360 walaa', 'life360 hady', 'hoda', 'hoda el-walili', 'hoda.elwalili@gmail.com']
-
-zone:
-  - name: Home
-    latitude: -36.848360
-    longitude: 174.872060
-    radius: 100
-    icon: mdi:home
-
-  - name: Xero
-    latitude: -36.852450
-    longitude: 174.782110
-    radius: 100
-    icon: mdi:briefcase-outline
-
-  - name: TWG
-    latitude: -36.800790
-    longitude: 174.757910
-    radius: 50
-    icon: mdi:briefcase-outline
-
-  - name: Glendowie
-    latitude: -36.860600
-    longitude: 174.869003
-    radius: 500
 
 notify:
   - name: ALL_DEVICES
