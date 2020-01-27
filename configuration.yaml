@@ -87,6 +87,7 @@ automation: !include_dir_list automation
 binary_sensor: !include_dir_list configuration/binary_sensors
 cover: !include cover.yaml
 group: !include groups.yaml
+notify: !include configuration/notify.yaml
 script: !include_dir_merge_named scripts
 sensor: !include_dir_list sensors
 zone: !include configuration/zones.yaml
@@ -110,13 +111,6 @@ life360:
       password: !secret life360_client_secret
   members:
     exclude: ['life360 hoda', 'life360 mohamed', 'life360 walaa', 'life360 hady', 'hoda', 'hoda el-walili', 'hoda.elwalili@gmail.com']
-
-notify:
-  - name: ALL_DEVICES
-    platform: group
-    services:
-      - service: mobile_app_hady_s_iphonex
-      - service: mobile_app_dina_s_iphone
 
 ios:
   push:

@@ -1,0 +1,5 @@
+- name: ALL_DEVICES
+  platform: group
+  services:
+    - service: mobile_app_hady_s_iphonex
+    - service: mobile_app_dina_s_iphone
