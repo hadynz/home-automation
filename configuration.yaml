@@ -83,10 +83,6 @@ person:
 #    - climate
 #    - cover
 
-# Text to speech
-tts:
-  - platform: google_translate
-
 automation: !include_dir_list automation
 binary_sensor: !include_dir_list configuration/binary_sensors
 cover: !include cover.yaml
@@ -120,7 +116,6 @@ notify:
     platform: group
     services:
       - service: mobile_app_hady_s_iphonex
-      - service: mobile_app_hadys_ipad_pro
       - service: mobile_app_dina_s_iphone
 
 ios:
