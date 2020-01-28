@@ -3,11 +3,6 @@ trigger:
   - platform: state
     entity_id: binary_sensor.wyzesense_77938e48 # Pantry door sensor
     to: 'off'
-  - platform: state
-    entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_3 # Pantry
-    to: 'on'
-    for:
-      minutes: 1
 action:
   - service: switch.turn_off
     data:
