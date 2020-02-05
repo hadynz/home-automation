@@ -1,0 +1,16 @@
+alias: notify_if_airbnb_frontdoor_open
+trigger:
+  - platform: time_pattern
+    minutes: '/20'
+    seconds: 0
+condition:
+  - condition: state
+    entity_id: binary_sensor.wyzesense_7787247e # Airbnb door sensor
+    state: 'on'
+action:
+  - service: notify.all_devices
+    data:
+      message: 'Remember the Airbnb door is open'
+      data:
+        push:
+          thread-id: "airbnb-door"

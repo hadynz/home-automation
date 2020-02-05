@@ -17,3 +17,7 @@ binary_sensor.wyzesense_779382a2:
 binary_sensor.wyzesense_778727e0:
   friendly_name: Front door
   device_class: door
+
+binary_sensor.wyzesense_7787247e:
+  friendly_name: Airbnb door
+  device_class: door
