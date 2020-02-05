@@ -20,9 +20,10 @@ homeassistant:
 discovery:
 
 # Configure Aeotec Z-Stick Gen5
-#zwave:
-#  usb_path: /dev/ttyACM0
-
+zwave:
+  usb_path: /dev/ttyACM0
+  network_key: !secret network_key
+  
 # Configure Samsung TV
 media_player:
   - platform: samsungtv_custom
