@@ -1,0 +1,12 @@
+alias: notify_when_frontdoor_opened
+trigger:
+  - platform: state
+    entity_id: binary_sensor.wyzesense_778727e0 # Front door sensor
+    to: 'on'
+action:
+  - service: notify.all_devices
+    data:
+      message: 'Front door was opened at {{now().strftime("%-I:%M %p")}}'
+      data:
+        push:
+          thread-id: "front-door"
