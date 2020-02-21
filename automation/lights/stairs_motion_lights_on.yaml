@@ -1,0 +1,16 @@
+alias: stairs_motion_lights_on
+trigger:
+  - platform: state
+    entity_id: binary_sensor.wyzesense_779b23bf # Stairs motion sensor
+    to: 'on'
+condition:
+  condition: or
+  conditions:
+    - condition: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+      below: -6
+action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_12 # Stairs lights
