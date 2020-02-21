@@ -117,3 +117,16 @@ ios:
             title: 'Leave open'
             activationMode: 'background'
             authenticationRequired: true
+
+# ASUSWRT integration for presence detection
+asuswrt:
+  host: 192.168.1.1
+  username: admin
+  ssh_key: /config/certs/asus
+  
+device_tracker:
+  - platform: asuswrt
+    interval_seconds: 10
+    consider_home: 180
+    track_new_devices: yes
+

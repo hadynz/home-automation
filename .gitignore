@@ -12,6 +12,7 @@ options.xml
 *.sqlite
 tts/*
 *.xml
+certs
 
 # Sensitive YAML files
 ip_bans.yaml
