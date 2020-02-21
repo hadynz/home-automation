@@ -1,0 +1,10 @@
+alias: bedroom_motion_lights_on
+trigger:
+  - platform: state
+    entity_id: binary_sensor.wyzesense_779b1600 # Bedroom motion sense
+    to: 'on'
+action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_4 # Bedroom light
+     

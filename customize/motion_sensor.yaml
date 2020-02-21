@@ -1,2 +1,5 @@
 binary_sensor.wyzesense_7787b931:
   friendly_name: Wardrobe motion sensor
+
+binary_sensor.wyzesense_779b1600:
+  friendly_name: Bedroom motion sensor
