@@ -83,8 +83,9 @@ person:
 # Google Assitant integration
 google_assistant:
   project_id: kurumba-smart-home
-  api_key: !secret googleassistant_api_key
+  service_account: !include google_service_account.json
   secure_devices_pin: !secret googleassistant_security_pin
+  report_state: true
   exposed_domains:
     - climate
     - cover
