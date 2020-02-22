@@ -80,13 +80,14 @@ person:
       - device_tracker.dinas_iphone # phone tracking (router)
       - device_tracker.dina_s_iphone # phone tracking (gps)
 
-#google_assistant:
-#  project_id: kurumba-smart-home
-#  api_key: 103348924575307066432
-#  secure_devices_pin: 1234
-#  exposed_domains:
-#    - climate
-#    - cover
+# Google Assitant integration
+google_assistant:
+  project_id: kurumba-smart-home
+  api_key: !secret googleassistant_api_key
+  secure_devices_pin: !secret googleassistant_security_pin
+  exposed_domains:
+    - climate
+    - cover
 
 automation: !include_dir_list automation
 binary_sensor: !include_dir_list configuration/binary_sensors
