@@ -5,8 +5,8 @@ homeassistant:
   # Name of the location where Home Assistant is running
   name: Kurumba Home
   # Location required to calculate the time the sun rises and sets
-  latitude: -36.848318
-  longitude: 174.872071
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
   # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 16
   # metric for Metric, imperial for Imperial
