@@ -127,6 +127,7 @@ asuswrt:
 device_tracker:
   - platform: asuswrt
     interval_seconds: 10
-    consider_home: 180
-    track_new_devices: yes
+    consider_home: 180 # 3 minutes
+    new_device_defaults:
+      track_new_devices: no
 
