@@ -1,0 +1,9 @@
+alias: front_door_lock_up
+trigger:
+  - platform: state
+    entity_id: binary_sensor.wyzesense_778727e0 # Front door sensor
+    to: 'off'
+action:
+  - service: lock.lock
+    data:
+      entity_id: lock.assa_abloy_yale_key_free_touchscreen_deadbolt_yrd446_locked # Front door Yale lock
