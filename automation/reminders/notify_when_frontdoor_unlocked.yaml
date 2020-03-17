@@ -1,0 +1,16 @@
+alias: notify_when_frontdoor_unlocked
+trigger:
+  - platform: time_pattern
+    minutes: '/15'
+    seconds: 0
+condition:
+  - condition: state
+    entity_id: lock.assa_abloy_yale_key_free_touchscreen_deadbolt_yrd446_locked # Front door Yale lock
+    state: 'unlocked'
+action:
+  - service: notify.all_devices
+    data:
+      message: 'Remember the front door is unlocked'
+      data:
+        push:
+          thread-id: "front-door-unlocked"
