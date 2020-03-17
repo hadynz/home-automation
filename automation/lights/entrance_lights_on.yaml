@@ -1,0 +1,9 @@
+alias: entrance_motion_lights_on
+trigger:
+  - platform: state
+    entity_id: binary_sensor.wyzesense_779B044A # Entrance motion sensor
+    to: 'on'
+action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_14 # Entrance lights
