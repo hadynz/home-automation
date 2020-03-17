@@ -3,8 +3,6 @@ trigger:
   - platform: state
     entity_id: binary_sensor.wyzesense_779b23bf # Stairs motion sensor
     to: 'off'
-    for:
-      minutes: 2
 action:
   - service: switch.turn_off
     data:
