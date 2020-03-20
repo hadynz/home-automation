@@ -1,0 +1,9 @@
+alias: off_if_heatpump_on_when_late
+trigger:
+  - platform: state
+    entity_id: binary_sensor.in_bed
+    to: 'on'
+action:
+  - service: notify.mobile_app_hady_s_iphonex
+    data:
+      message: 'Everyone is in bed'
