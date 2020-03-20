@@ -4,12 +4,14 @@ trigger:
     entity_id: binary_sensor.wyzesense_779b1600 # Bedroom motion sense
     to: 'on'
 condition:
-  condition: or
+  condition: and
   conditions:
-    - condition: numeric_state
-      entity_id: sun.sun
-      value_template: '{{ state.attributes.elevation }}'
-      below: -5
+    - condition: state
+      entity_id: binary_sensor.in_bed
+      state: 'off'
+    - condition: state
+      entity_id: binary_sensor.after_hours_light
+      state: 'on'
 action:
   - service: switch.turn_on
     data:

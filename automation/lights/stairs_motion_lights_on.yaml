@@ -4,12 +4,9 @@ trigger:
     entity_id: binary_sensor.wyzesense_779b23bf # Stairs motion sensor
     to: 'on'
 condition:
-  condition: or
-  conditions:
-    - condition: numeric_state
-      entity_id: sun.sun
-      value_template: '{{ state.attributes.elevation }}'
-      below: -5
+  - condition: state
+    entity_id: binary_sensor.after_hours_light
+    state: 'on'
 action:
   - service: switch.turn_on
     data:

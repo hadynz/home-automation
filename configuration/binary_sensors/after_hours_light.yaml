@@ -1,0 +1,8 @@
+platform: template
+sensors: 
+  after_hours_light: 
+    device_class: presence
+    value_template: >-
+      {{ 
+          state_attr('sun.sun', 'elevation') < 0
+      }}

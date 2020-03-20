@@ -5,6 +5,10 @@ trigger:
     to: 'off'
     for:
       minutes: 2
+condition:
+    - condition: state
+      entity_id: binary_sensor.in_bed
+      state: 'off'
 action:
   - service: switch.turn_off
     data:
