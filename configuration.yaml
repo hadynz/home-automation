@@ -86,9 +86,11 @@ google_assistant:
   service_account: !include google_service_account.json
   secure_devices_pin: !secret googleassistant_security_pin
   report_state: true
-  exposed_domains:
-    - climate
-    - cover
+  entity_config:
+    cover.garage_door:
+      name: GARAGE_DOOR
+      aliases:
+        - GARAGE
 
 automation: !include_dir_list automation
 binary_sensor: !include_dir_list configuration/binary_sensors
