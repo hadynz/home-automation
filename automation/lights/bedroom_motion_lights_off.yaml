@@ -4,7 +4,7 @@ trigger:
     entity_id: binary_sensor.wyzesense_779b1600 # Bedroom motion sense
     to: 'off'
     for:
-      minutes: 2
+      minutes: 5
 condition:
     - condition: state
       entity_id: binary_sensor.in_bed
