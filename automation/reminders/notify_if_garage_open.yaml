@@ -1,7 +1,7 @@
 alias: notify_if_garage_open
 trigger:
   - platform: time_pattern
-    minutes: '/15'
+    minutes: '/60'
     seconds: 0
 condition:
   - condition: state
