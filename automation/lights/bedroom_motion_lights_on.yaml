@@ -12,6 +12,9 @@ condition:
     - condition: state
       entity_id: binary_sensor.after_hours_light
       state: 'on'
+    - condition: time
+      after: '17:00:00' # 5pm
+      before: '01:00:00' # 1am
 action:
   - service: switch.turn_on
     data:
