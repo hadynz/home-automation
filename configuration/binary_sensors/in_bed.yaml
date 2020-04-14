@@ -8,10 +8,14 @@ sensors:
         lounge lights - left
         lounge lights - right
         below horizon
+        tv switched off
+        after 9pm
       #}
       {{
-        is_state("switch.aeon_labs_zw132_dual_nano_switch_switch_2", 'off')
-        and is_state("switch.aeon_labs_zw132_dual_nano_switch_switch_7", 'off')
-        and is_state("switch.aeon_labs_zw132_dual_nano_switch_switch_8", 'off')
-        and is_state("sun.sun", 'below_horizon')
+        is_state("switch.aeon_labs_zw132_dual_nano_switch_switch_2", "off")
+        and is_state("switch.aeon_labs_zw132_dual_nano_switch_switch_7", "off")
+        and is_state("switch.aeon_labs_zw132_dual_nano_switch_switch_8", "off")
+        and is_state("sun.sun", "below_horizon")
+        and is_state("media_player.samsung_tv", "off")
+        and now().hour >= 21
       }}
