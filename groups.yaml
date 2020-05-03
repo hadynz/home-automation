@@ -1,6 +1,0 @@
-garage:
-  name: Garage
-  entities:
-    - cover.garage_door
-    - sensor.garage_car_present
-    - sensor.garage_status

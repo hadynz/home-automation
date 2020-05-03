@@ -1,0 +1,24 @@
+motion_sensors:
+  name: Motion sensors
+  entities:
+    - binary_sensor.wyzesense_7787b931 # Wardrobe motion sensor
+    - binary_sensor.wyzesense_779b1600 # Bedroom motion sensor
+    - binary_sensor.wyzesense_779b23bf # Stairs motion sensor
+    - binary_sensor.wyzesense_779B044A # Entrance motion sensor
+
+living_area_lights:
+  name: Living area lights
+  entities:
+    - switch.aeon_labs_zw132_dual_nano_switch_switch_2 # Kitchen lights
+    - switch.aeon_labs_zw132_dual_nano_switch_switch_7 # Lounge - left lights
+    - switch.aeon_labs_zw132_dual_nano_switch_switch_8 # Lounge - right lights
+
+people:
+  name: People & devices
+  entities:
+    - device_tracker.dina_s_iphone # Phone GPS
+    - device_tracker.dinas_iphone # Phone connection to router
+    - device_tracker.life360_dina # Life 360
+    - device_tracker.hady_s_iphonex # Phone GPS
+    - device_tracker.hadys_iphonex # Phone connection to router
+    - device_tracker.life360_hady_osman # Life360
