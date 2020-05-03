@@ -1,0 +1,15 @@
+- name: Hady
+  id: 09ddc9179a164a97bfa299fcac8eae1c
+  user_id: 7d5a46518c4042e78cf881f568aaea26
+  device_trackers:
+    - device_tracker.hadys_iphonex # phone tracking (router)
+    - device_tracker.hady_s_iphonex # phone tracking (gps)
+    #- device_tracker.life360_hady_osman # life360 tracking (gps)
+
+- name: Dina
+  id: f4d70ea66e5c42b984c27247af214bfa
+  user_id: d8def70d37d64843b571bfaf79ed6d3b
+  device_trackers:
+    - device_tracker.dinas_iphone # phone tracking (router)
+    - device_tracker.dina_s_iphone # phone tracking (gps)
+    #- device_tracker.life360_dina # life360 tracking (gps)
