@@ -1,0 +1,8 @@
+name: Super Jojo
+icon: "mdi:flower-tulip"
+entities:
+  group.living_area_lights: "off"
+  light.40866003d8f15b972dd2: "on"
+  #media_player.samsung_tv:
+  #  volume_level: "10"
+  

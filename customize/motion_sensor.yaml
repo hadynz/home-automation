@@ -9,3 +9,12 @@ binary_sensor.wyzesense_779b23bf:
   
 binary_sensor.wyzesense_779B044A:
   friendly_name: Entrance motion sensor
+
+binary_sensor.wyzesense_779B265D:
+  friendly_name: Garage motion sensor
+  
+binary_sensor.wyzesense_779B08BC:
+  friendly_name: Bathroom motion sensor
+  
+binary_sensor.wyzesense_779B0501:
+  friendly_name: Kitchen motion sensor

@@ -8,10 +8,10 @@ switch.aeon_labs_zw132_dual_nano_switch_switch_6:
   friendly_name: Master bedroom - mirror lights
 
 switch.aeon_labs_zw116_nano_switch_switch_2:
-  friendly_name: Master bedroom - Hady's spot
+  friendly_name: Garage lights
   
 switch.aeon_labs_zw116_nano_switch_switch_3:
-  friendly_name: Master bedroom - Dina's spot
+  friendly_name: Bathroom lights
 
 switch.aeon_labs_zw116_nano_switch_switch:
   friendly_name: Wardrobe light
@@ -45,3 +45,6 @@ switch.aeon_labs_zw132_dual_nano_switch_switch_14:
 
 switch.aeon_labs_zw132_dual_nano_switch_switch_15:
   friendly_name: Entrance and door light
+
+light.40866003d8f15b972dd2:
+  friendly_name: Floor lamp

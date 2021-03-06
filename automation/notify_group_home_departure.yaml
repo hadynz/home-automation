@@ -1,0 +1,9 @@
+alias: notify_group_home_departure
+trigger:
+  - platform: state
+    entity_id: group.people
+    to: 'not_home'
+action:
+  - service: notify.mobile_app_hady_s_iphonex
+    data:
+      message: 'Did both Dina and you just leave the house together?'

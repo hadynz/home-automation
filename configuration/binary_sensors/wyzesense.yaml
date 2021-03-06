@@ -1,2 +1,2 @@
 platform: wyzesense
-device: "/dev/hidraw0"
+device: auto 

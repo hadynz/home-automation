@@ -1,0 +1,9 @@
+alias: notify_group_home_arrival
+trigger:
+  - platform: state
+    entity_id: group.people
+    to: 'home'
+action:
+  - service: notify.mobile_app_hady_s_iphonex
+    data:
+      message: 'Did both Dina and you just arrive in tandem now?'

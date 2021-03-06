@@ -1,0 +1,9 @@
+alias: floor_lamp_lights_off
+trigger:
+  - platform: state
+    entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_8 # Lounge - right lights
+    to: 'off'
+action:
+  - service: light.turn_off
+    data:
+      entity_id: light.40866003d8f15b972dd2 # Floor lamp

@@ -1,0 +1,37 @@
+# Presence detection
+platform: bayesian
+name: Home occupied
+device_class: presence
+prior: 0.5
+probability_threshold: 0.6
+observations:
+  - entity_id: group.motion_sensors
+    platform: 'state'
+    to_state: 'on'
+    prob_given_true: 0.75
+    prob_given_false: 0.05
+  - entity_id: lock.assa_abloy_yale_key_free_touchscreen_deadbolt_yrd446_locked
+    platform: 'state'
+    to_state: 'unlocked'
+    prob_given_true: 0.7
+    prob_given_false: 0.3
+  - entity_id: device_tracker.bradley_app
+    platform: 'state'
+    to_state: 'home'
+    prob_given_true: 0.7
+    prob_given_false: 0.05
+  - entity_id: device_tracker.nirupa_app
+    platform: 'state'
+    to_state: 'home'
+    prob_given_true: 0.7
+    prob_given_false: 0.05
+  - platform: template
+    value_template: >
+      {{ is_state('device_tracker.bradley_app', 'home') and is_state('device_tracker.nirupa_app', 'home') }}
+    prob_given_true: 0.9
+    prob_given_false: 0.5
+  - platform: template
+    value_template: >
+      {{ (not is_state('device_tracker.bradley_app', 'home')) and (not is_state('device_tracker.nirupa_app', 'home')) }}
+    prob_given_true: 0.2
+    prob_given_false: 0.5

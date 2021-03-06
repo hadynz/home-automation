@@ -4,5 +4,5 @@ sensors:
     device_class: presence
     value_template: >-
       {{ 
-          state_attr('sun.sun', 'elevation') < 0
+          state_attr('sun.sun', 'elevation') < 1
       }}

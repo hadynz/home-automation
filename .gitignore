@@ -13,8 +13,16 @@ options.xml
 tts/*
 *.xml
 certs
+blueprints
 
 # Sensitive YAML files
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
+
+# Sensitive JSON files
+google_service_account.json
+
+# All tileboard code, except custom config file
+www/tileboard/*
+!www/tileboard/config.js
