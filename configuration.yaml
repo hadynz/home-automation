@@ -32,9 +32,6 @@ media_player:
     name: 'Samsung TV'
     mac: '70:2a:d5:8a:6b:2c'
     protocol: ws
-  - platform: spotify
-    client_id: !secret spotify_client_id
-    client_secret: !secret spotify_client_secret
         
 #logger:
 #  logs:
@@ -80,8 +77,10 @@ binary_sensor: !include_dir_list configuration/binary_sensors
 climate: !include configuration/climate.yaml
 cover: !include cover.yaml
 group: !include configuration/groups.yaml
+input_boolean: !include configuration/input_booleans.yaml
 notify: !include configuration/notify.yaml
 person: !include configuration/persons.yaml
+scene: !include_dir_merge_named scene
 script: !include_dir_merge_named scripts
 sensor: !include_dir_list sensors
 zone: !include configuration/zones.yaml

@@ -1,0 +1,15 @@
+alias: garage_lights_off
+trigger:
+  - platform: state
+    entity_id: binary_sensor.wyzesense_779B265D # Garage motion sensor
+    to: 'off'
+    for:
+      minutes: 5
+condition:
+    condition: state
+    entity_id: input_boolean.wfh
+    state: "off"
+action:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.aeon_labs_zw116_nano_switch_switch_2 # Garage lights
