@@ -15,6 +15,9 @@ tts/*
 certs
 blueprints
 
+# HACS
+custom_components/hacs/*
+
 # Noisey files
 *.log.*
 *.db-*
