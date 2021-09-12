@@ -3,10 +3,10 @@ trigger:
   - platform: state
     entity_id: binary_sensor.wyzesense_779B265D # Garage motion sensor
     to: 'on'
-condition:
-  - condition: state
-    entity_id: binary_sensor.wyzesense_77937934 # Garage door sensor
-    state: 'off'
+# condition:
+#   - condition: state
+#     entity_id: binary_sensor.wyzesense_77937934 # Garage door sensor
+#     state: 'off'
 action:
   - service: switch.turn_on
     data:

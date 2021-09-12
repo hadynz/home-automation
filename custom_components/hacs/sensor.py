@@ -1,12 +1,12 @@
 """Sensor platform for HACS."""
+from homeassistant.core import callback
 from homeassistant.helpers.entity import Entity
-from custom_components.hacs.const import DOMAIN, NAME_SHORT, VERSION
-from custom_components.hacs.share import get_hacs
+
+from custom_components.hacs.const import DOMAIN, NAME_SHORT
+from custom_components.hacs.mixin import HacsMixin
 
 
-async def async_setup_platform(
-    _hass, _config, async_add_entities, _discovery_info=None
-):
+async def async_setup_platform(_hass, _config, async_add_entities, _discovery_info=None):
     """Setup sensor platform."""
     async_add_entities([HACSSensor()])
 
@@ -16,7 +16,7 @@ async def async_setup_entry(_hass, _config_entry, async_add_devices):
     async_add_devices([HACSSensor()])
 
 
-class HACSDevice(Entity):
+class HACSDevice(HacsMixin, Entity):
     """HACS Device class."""
 
     @property
@@ -27,7 +27,7 @@ class HACSDevice(Entity):
             "name": NAME_SHORT,
             "manufacturer": "hacs.xyz",
             "model": "",
-            "sw_version": VERSION,
+            "sw_version": str(self.hacs.version),
             "entry_type": "service",
         }
 
@@ -40,18 +40,33 @@ class HACSSensor(HACSDevice):
         self._state = None
         self.repositories = []
 
+    @property
+    def should_poll(self):
+        """No polling needed."""
+        return False
+
     async def async_update(self):
+        """Manual updates of the sensor."""
+        self._update()
+
+    @callback
+    def _update_and_write_state(self, *_):
+        """Update the sensor and write state."""
+        self._update()
+        self.async_write_ha_state()
+
+    @callback
+    def _update(self):
         """Update the sensor."""
-        hacs = get_hacs()
-        if hacs.status.background_task:
+        if self.hacs.status.background_task:
             return
 
         self.repositories = []
 
-        for repository in hacs.repositories:
+        for repository in self.hacs.repositories:
             if (
                 repository.pending_upgrade
-                and repository.data.category in hacs.common.categories
+                and repository.data.category in self.hacs.common.categories
             ):
                 self.repositories.append(repository)
         self._state = len(self.repositories)
@@ -59,9 +74,7 @@ class HACSSensor(HACSDevice):
     @property
     def unique_id(self):
         """Return a unique ID to use for this sensor."""
-        return (
-            "0717a0cd-745c-48fd-9b16-c8534c9704f9-bc944b0f-fd42-4a58-a072-ade38d1444cd"
-        )
+        return "0717a0cd-745c-48fd-9b16-c8534c9704f9-bc944b0f-fd42-4a58-a072-ade38d1444cd"
 
     @property
     def name(self):
@@ -97,3 +110,9 @@ class HACSSensor(HACSDevice):
                 }
             )
         return {"repositories": repositories}
+
+    async def async_added_to_hass(self) -> None:
+        """Register for status events."""
+        self.async_on_remove(
+            self.hass.bus.async_listen("hacs/status", self._update_and_write_state)
+        )

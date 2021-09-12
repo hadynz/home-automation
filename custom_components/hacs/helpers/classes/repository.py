@@ -1,25 +1,25 @@
 """Repository."""
-# pylint: disable=broad-except, bad-continuation, no-member
+# pylint: disable=broad-except, no-member
 import json
 import os
+import shutil
 import tempfile
 import zipfile
 
 from aiogithubapi import AIOGitHubAPIException
 from queueman import QueueManager
 
+from custom_components.hacs.exceptions import HacsException, HacsNotModifiedException
 from custom_components.hacs.helpers import RepositoryHelpers
-from custom_components.hacs.helpers.classes.exceptions import HacsException
 from custom_components.hacs.helpers.classes.manifest import HacsManifest
 from custom_components.hacs.helpers.classes.repositorydata import RepositoryData
 from custom_components.hacs.helpers.classes.validate import Validate
-from custom_components.hacs.helpers.functions.is_safe_to_remove import is_safe_to_remove
-
 from custom_components.hacs.helpers.functions.download import async_download_file
 from custom_components.hacs.helpers.functions.information import (
     get_info_md_content,
     get_repository,
 )
+from custom_components.hacs.helpers.functions.is_safe_to_remove import is_safe_to_remove
 from custom_components.hacs.helpers.functions.misc import get_repository_name
 from custom_components.hacs.helpers.functions.save import async_save_file
 from custom_components.hacs.helpers.functions.store import async_remove_store
@@ -31,6 +31,7 @@ from custom_components.hacs.helpers.functions.version_to_install import (
     version_to_install,
 )
 from custom_components.hacs.share import get_hacs
+from custom_components.hacs.utils.logger import getLogger
 
 
 class RepositoryVersions:
@@ -129,11 +130,29 @@ class HacsRepository(RepositoryHelpers):
         self.tree = []
         self.treefiles = []
         self.ref = None
+        self.logger = getLogger()
+
+    def __str__(self) -> str:
+        """Return a string representation of the repository."""
+        return f"<{self.data.category.title()} {self.data.full_name}>"
 
     @property
     def display_name(self):
         """Return display name."""
         return get_repository_name(self)
+
+    @property
+    def ignored_by_country_configuration(self) -> bool:
+        """Return True if hidden by country."""
+        if self.data.installed:
+            return False
+        configuration = self.hacs.configuration.country.lower()
+        manifest = [entry.lower() for entry in self.repository_manifest.country or []]
+        if configuration == "all":
+            return False
+        if not manifest:
+            return False
+        return configuration not in manifest
 
     @property
     def display_status(self):
@@ -215,10 +234,20 @@ class HacsRepository(RepositoryHelpers):
         """Common registration steps of the repository."""
         # Attach repository
         if self.repository_object is None:
-            self.repository_object = await get_repository(
-                self.hacs.session, self.hacs.configuration.token, self.data.full_name
-            )
-            self.data.update_data(self.repository_object.attributes)
+            try:
+                self.repository_object, etag = await get_repository(
+                    self.hacs.session,
+                    self.hacs.configuration.token,
+                    self.data.full_name,
+                    None if self.data.installed else self.data.etag_repository,
+                )
+                self.data.update_data(self.repository_object.attributes)
+                self.data.etag_repository = etag
+            except HacsNotModifiedException:
+                self.logger.debug(
+                    "Did not update %s, content was not modified", self.data.full_name
+                )
+                return
 
         # Set topics
         self.data.topics = self.data.topics
@@ -233,14 +262,18 @@ class HacsRepository(RepositoryHelpers):
             if self.data.description is None or len(self.data.description) == 0:
                 raise HacsException("::error:: Missing repository description")
 
-    async def common_update(self, ignore_issues=False):
+    async def common_update(self, ignore_issues=False, force=False):
         """Common information update steps of the repository."""
-        self.logger.debug("Getting repository information")
+        self.logger.debug("%s Getting repository information", self)
 
         # Attach repository
-        await common_update_data(self, ignore_issues)
+        current_etag = self.data.etag_repository
+        await common_update_data(self, ignore_issues, force)
+        if not self.data.installed and (current_etag == self.data.etag_repository) and not force:
+            self.logger.debug("Did not update %s, content was not modified", self.data.full_name)
+            return False
 
-        # Update last updaeted
+        # Update last updated
         self.data.last_updated = self.repository_object.attributes.get("pushed_at", 0)
 
         # Update last available commit
@@ -253,6 +286,8 @@ class HacsRepository(RepositoryHelpers):
         # Update "info.md"
         self.information.additional_info = await get_info_md_content(self)
 
+        return True
+
     async def download_zip_files(self, validate):
         """Download ZIP archive from repository release."""
         download_queue = QueueManager()
@@ -260,7 +295,7 @@ class HacsRepository(RepositoryHelpers):
             contents = False
 
             for release in self.releases.objects:
-                self.logger.info(f"ref: {self.ref}  ---  tag: {release.tag_name}.")
+                self.logger.info("%s ref: %s ---  tag: %s.", self, self.ref, release.tag_name)
                 if release.tag_name == self.ref.split("/")[1]:
                     contents = release.assets
 
@@ -272,7 +307,7 @@ class HacsRepository(RepositoryHelpers):
 
             await download_queue.execute()
         except (Exception, BaseException):
-            validate.errors.append(f"Download was not completed")
+            validate.errors.append("Download was not completed")
 
         return validate
 
@@ -285,20 +320,27 @@ class HacsRepository(RepositoryHelpers):
                 validate.errors.append(f"[{content.name}] was not downloaded")
                 return
 
-            result = await async_save_file(
-                f"{tempfile.gettempdir()}/{self.data.filename}", filecontent
-            )
-            with zipfile.ZipFile(
-                f"{tempfile.gettempdir()}/{self.data.filename}", "r"
-            ) as zip_file:
+            temp_dir = await self.hacs.hass.async_add_executor_job(tempfile.mkdtemp)
+            temp_file = f"{temp_dir}/{self.data.filename}"
+
+            result = await async_save_file(temp_file, filecontent)
+            with zipfile.ZipFile(temp_file, "r") as zip_file:
                 zip_file.extractall(self.content.path.local)
 
+            def cleanup_temp_dir():
+                """Cleanup temp_dir."""
+                if os.path.exists(temp_dir):
+                    self.logger.debug("Cleaning up %s", temp_dir)
+                    shutil.rmtree(temp_dir)
+
             if result:
-                self.logger.info(f"Download of {content.name} completed")
+                self.logger.info("%s Download of %s completed", self, content.name)
+                await self.hacs.hass.async_add_executor_job(cleanup_temp_dir)
                 return
+
             validate.errors.append(f"[{content.name}] was not downloaded")
         except (Exception, BaseException):
-            validate.errors.append(f"Download was not completed")
+            validate.errors.append("Download was not completed")
 
         return validate
 
@@ -313,20 +355,16 @@ class HacsRepository(RepositoryHelpers):
         """Get the content of the hacs.json file."""
         if not "hacs.json" in [x.filename for x in self.tree]:
             if self.hacs.system.action:
-                raise HacsException(
-                    "::error:: No hacs.json file in the root of the repository."
-                )
+                raise HacsException("::error:: No hacs.json file in the root of the repository.")
             return
         if self.hacs.system.action:
-            self.logger.info("Found hacs.json")
+            self.logger.info("%s Found hacs.json", self)
 
         self.ref = version_to_install(self)
 
         try:
             manifest = await self.repository_object.get_contents("hacs.json", self.ref)
-            self.repository_manifest = HacsManifest.from_dict(
-                json.loads(manifest.content)
-            )
+            self.repository_manifest = HacsManifest.from_dict(json.loads(manifest.content))
             self.data.update_data(json.loads(manifest.content))
         except (AIOGitHubAPIException, Exception) as exception:  # Gotta Catch 'Em All
             if self.hacs.system.action:
@@ -334,21 +372,21 @@ class HacsRepository(RepositoryHelpers):
                     f"::error:: hacs.json file is not valid ({exception})."
                 ) from None
         if self.hacs.system.action:
-            self.logger.info("hacs.json is valid")
+            self.logger.info("%s hacs.json is valid", self)
 
     def remove(self):
         """Run remove tasks."""
-        self.logger.info("Starting removal")
+        self.logger.info("%s Starting removal", self)
 
         if self.data.id in self.hacs.common.installed:
             self.hacs.common.installed.remove(self.data.id)
         for repository in self.hacs.repositories:
             if repository.data.id == self.data.id:
-                self.hacs.repositories.remove(repository)
+                self.hacs.async_remove_repository(repository)
 
     async def uninstall(self):
         """Run uninstall tasks."""
-        self.logger.info("Uninstalling")
+        self.logger.info("%s Uninstalling", self)
         if not await self.remove_local_directory():
             raise HacsException("Could not uninstall")
         self.data.installed = False
@@ -359,9 +397,7 @@ class HacsRepository(RepositoryHelpers):
                 self.pending_restart = True
         elif self.data.category == "theme":
             try:
-                await self.hacs.hass.services.async_call(
-                    "frontend", "reload_themes", {}
-                )
+                await self.hacs.hass.services.async_call("frontend", "reload_themes", {})
             except (Exception, BaseException):  # pylint: disable=broad-except
                 pass
         if self.data.full_name in self.hacs.common.installed:
@@ -378,7 +414,6 @@ class HacsRepository(RepositoryHelpers):
 
     async def remove_local_directory(self):
         """Check the local directory."""
-        import shutil
         from asyncio import sleep
 
         try:
@@ -386,15 +421,15 @@ class HacsRepository(RepositoryHelpers):
                 local_path = f"{self.content.path.local}/{self.data.name}.py"
             elif self.data.category == "theme":
                 if os.path.exists(
-                    f"{self.hacs.system.config_path}/{self.hacs.configuration.theme_path}/{self.data.name}.yaml"
+                    f"{self.hacs.core.config_path}/{self.hacs.configuration.theme_path}/{self.data.name}.yaml"
                 ):
                     os.remove(
-                        f"{self.hacs.system.config_path}/{self.hacs.configuration.theme_path}/{self.data.name}.yaml"
+                        f"{self.hacs.core.config_path}/{self.hacs.configuration.theme_path}/{self.data.name}.yaml"
                     )
                 local_path = self.content.path.local
             elif self.data.category == "integration":
                 if not self.data.domain:
-                    self.logger.error("Missing domain")
+                    self.logger.error("%s Missing domain", self)
                     return False
                 local_path = self.content.path.local
             else:
@@ -402,9 +437,9 @@ class HacsRepository(RepositoryHelpers):
 
             if os.path.exists(local_path):
                 if not is_safe_to_remove(local_path):
-                    self.logger.error(f"Path {local_path} is blocked from removal")
+                    self.logger.error("%s Path %s is blocked from removal", self, local_path)
                     return False
-                self.logger.debug(f"Removing {local_path}")
+                self.logger.debug("%s Removing %s", self, local_path)
 
                 if self.data.category in ["python_script"]:
                     os.remove(local_path)
@@ -415,10 +450,10 @@ class HacsRepository(RepositoryHelpers):
                     await sleep(1)
             else:
                 self.logger.debug(
-                    f"Presumed local content path {local_path} does not exist"
+                    "%s Presumed local content path %s does not exist", self, local_path
                 )
 
         except (Exception, BaseException) as exception:
-            self.logger.debug(f"Removing {local_path} failed with {exception}")
+            self.logger.debug("%s Removing %s failed with %s", self, local_path, exception)
             return False
         return True

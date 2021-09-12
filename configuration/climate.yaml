@@ -1,5 +1,5 @@
 - platform: mitsubishi
-  name: 'Mitsubishi Heat Pump'
+  name: 'Lounge Heat Pump'
   ip_address: 192.168.1.202
   fan_modes:
     - 'minimum'

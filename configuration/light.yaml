@@ -1,0 +1,78 @@
+- platform: switch
+  name: 'Garage lights'
+  entity_id: switch.aeon_labs_zw116_nano_switch_switch_2
+
+- platform: switch
+  name: 'Master bedroom lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_4
+
+- platform: switch
+  name: 'Bed lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_5
+  
+- platform: switch
+  name: 'Mirror lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_6
+
+- platform: switch
+  name: 'Bathroom lights'
+  entity_id: switch.aeon_labs_zw116_nano_switch_switch_3
+  
+- platform: switch
+  name: 'Wardrobe lights'
+  entity_id: switch.aeon_labs_zw116_nano_switch_switch
+
+- platform: switch
+  name: 'Kitchen lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_2
+
+- platform: switch
+  name: 'Pantry lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_3
+
+- platform: switch
+  name: 'Left lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_7
+
+- platform: switch
+  name: 'Right lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_8
+
+- platform: switch
+  name: 'Stairs lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_12
+
+- platform: switch
+  name: 'Wall lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_10
+  
+- platform: switch
+  name: 'Pendant lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_11
+
+- platform: switch
+  name: 'Front door lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_13
+
+- platform: switch
+  name: 'Entrance lobby lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_14
+
+- platform: switch
+  name: 'Front entrance lights'
+  entity_id: switch.aeon_labs_zw132_dual_nano_switch_switch_15
+
+- platform: group
+  name: 'Lounge lights'
+  entities:
+    - light.kitchen_lights
+    - light.left_lights
+    - light.right_lights
+      
+- platform: group
+  name: 'Bedroom lights'
+  entities:
+    - light.bathroom_lights
+    - light.bed_lights
+    - light.mirror_lights
+    - light.wardrobe_lights

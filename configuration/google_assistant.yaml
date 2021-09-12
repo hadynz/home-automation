@@ -1,0 +1,14 @@
+project_id: kurumba-smart-home
+service_account: !include ../google_service_account.json
+secure_devices_pin: !secret googleassistant_security_pin
+report_state: true
+exposed_domains:
+  - climate
+  - light
+  - lock
+entity_config:
+  input_boolean.wfh:
+    name: Working from home mode
+    aliases:
+      - Work from home
+      - Working from home

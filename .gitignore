@@ -15,6 +15,10 @@ tts/*
 certs
 blueprints
 
+# Noisey files
+*.log.*
+*.db-*
+
 # Sensitive YAML files
 ip_bans.yaml
 secrets.yaml

@@ -19,19 +19,27 @@ homeassistant:
 # Turn on discovery module (required in particular for @Konnected_io)
 discovery:
 
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.0/24
+
+# Required to turn on TV (wake on wan supported device)
+wake_on_lan:
+
 # Configure Aeotec Z-Stick Gen5
 zwave:
   usb_path: /dev/ttyACM0
   network_key: !secret network_key
   
 # Configure Samsung TV
-media_player:
-  - platform: samsungtv_custom
-    host: 192.168.1.169
-    port: 8002
-    name: 'Samsung TV'
-    mac: '70:2a:d5:8a:6b:2c'
-    protocol: ws
+# media_player:
+#   - platform: samsungtv_custom
+#     host: 192.168.1.169
+#     port: 8002
+#     name: 'Samsung TV'
+#     mac: '70:2a:d5:8a:6b:2c'
+#     protocol: ws
         
 #logger:
 #  logs:
@@ -61,25 +69,16 @@ media_player:
 #       port: 22454
 
 # Google Assitant integration
-google_assistant:
-  project_id: kurumba-smart-home
-  service_account: !include google_service_account.json
-  secure_devices_pin: !secret googleassistant_security_pin
-  report_state: true
-  entity_config:
-    cover.garage_door:
-      name: GARAGE_DOOR
-      aliases:
-        - GARAGE
-
 automation: !include_dir_list automation
 binary_sensor: !include_dir_list configuration/binary_sensors
 climate: !include configuration/climate.yaml
 cover: !include cover.yaml
 group: !include configuration/groups.yaml
+google_assistant: !include configuration/google_assistant.yaml
 input_boolean: !include configuration/input_booleans.yaml
+light: !include configuration/light.yaml
 notify: !include configuration/notify.yaml
-person: !include configuration/persons.yaml
+# person: !include configuration/persons.yaml
 scene: !include_dir_merge_named scene
 script: !include_dir_merge_named scripts
 sensor: !include_dir_list sensors
@@ -93,32 +92,32 @@ life360:
   members:
     exclude: ['life360 hoda', 'life360 mohamed', 'life360 walaa', 'life360 hady', 'hoda', 'hoda el-walili', 'hoda.elwalili@gmail.com']
 
-ios:
-  push:
-    categories:
-      - name: Open garage
-        identifier: 'ios-open-garage-category'
-        actions:
-          - identifier: 'CLOSE_GARAGE'
-            title: 'Close garage'
-            activationMode: 'background'
-            authenticationRequired: true
-            destructive: true
-          - identifier: 'LEAVE OPEN'
-            title: 'Leave open'
-            activationMode: 'background'
-            authenticationRequired: true
+# ios:
+#   push:
+#     categories:
+#       - name: Open garage
+#         identifier: 'ios-open-garage-category'
+#         actions:
+#           - identifier: 'CLOSE_GARAGE'
+#             title: 'Close garage'
+#             activationMode: 'background'
+#             authenticationRequired: true
+#             destructive: true
+#           - identifier: 'LEAVE OPEN'
+#             title: 'Leave open'
+#             activationMode: 'background'
+#             authenticationRequired: true
 
 # ASUSWRT integration for presence detection
-asuswrt:
-  host: 192.168.1.1
-  username: admin
-  ssh_key: /config/certs/asus
+# asuswrt:
+#   host: 192.168.1.1
+#   username: admin
+#   ssh_key: /config/certs/asus
   
-device_tracker:
-  - platform: asuswrt
-    interval_seconds: 10
-    consider_home: 180 # 3 minutes
-    new_device_defaults:
-      track_new_devices: no
+# device_tracker:
+#   - platform: asuswrt
+#     interval_seconds: 10
+#     consider_home: 180 # 3 minutes
+#     new_device_defaults:
+#       track_new_devices: no
 

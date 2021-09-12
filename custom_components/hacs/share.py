@@ -1,7 +1,7 @@
 """Shared HACS elements."""
 import os
 
-from .models.base import Hacs
+from .base import HacsBase
 
 SHARE = {
     "hacs": None,
@@ -12,7 +12,7 @@ SHARE = {
 }
 
 
-def get_hacs() -> Hacs:
+def get_hacs() -> HacsBase:
     if SHARE["hacs"] is None:
         from custom_components.hacs.hacsbase.hacs import Hacs as Legacy
 
@@ -56,9 +56,7 @@ def get_removed(repository):
         removed_repo.repository = repository
         SHARE["removed_repositories"].append(removed_repo)
     filter_repos = [
-        x
-        for x in SHARE["removed_repositories"]
-        if x.repository.lower() == repository.lower()
+        x for x in SHARE["removed_repositories"] if x.repository.lower() == repository.lower()
     ]
 
     return filter_repos.pop() or None
