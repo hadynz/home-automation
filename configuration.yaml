@@ -19,6 +19,7 @@ homeassistant:
 # Turn on discovery module (required in particular for @Konnected_io)
 discovery:
 
+# Configured as required by Nginx-addon
 http:
   use_x_forwarded_for: true
   trusted_proxies:

@@ -1,7 +1,7 @@
 alias: pantry_lights_on
 trigger:
   - platform: state
-    entity_id: binary_sensor.wyzesense_779B0501 # Kitchen motion sensor
+    entity_id: binary_sensor.aqara_pantry_motion_sensor # Kitchen motion sensor
     to: 'on'
 action:
   - service: switch.turn_on

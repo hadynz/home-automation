@@ -5,7 +5,7 @@ trigger:
     seconds: 0
 condition:
   - condition: state
-    entity_id: binary_sensor.wyzesense_778727e0 # Front door sensor
+    entity_id: binary_sensor.aqara_front_door # Front door sensor
     state: 'on'
 action:
   - service: notify.all_devices

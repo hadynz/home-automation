@@ -1,12 +1,8 @@
 alias: garage_lights_on
 trigger:
   - platform: state
-    entity_id: binary_sensor.wyzesense_779B265D # Garage motion sensor
+    entity_id: binary_sensor.aqara_garage_motion_sensor # Garage motion sensor
     to: 'on'
-# condition:
-#   - condition: state
-#     entity_id: binary_sensor.wyzesense_77937934 # Garage door sensor
-#     state: 'off'
 action:
   - service: switch.turn_on
     data:

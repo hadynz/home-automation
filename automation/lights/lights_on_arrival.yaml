@@ -4,7 +4,7 @@ trigger:
     entity_id: binary_sensor.wyzesense_77937934 # Garage door sensor
     to: 'on'
   - platform: state
-    entity_id: binary_sensor.wyzesense_778727e0 # Front door sensor
+    entity_id: binary_sensor.aqara_front_door # Front door sensor
     to: 'on'
 condition:
   - condition: state

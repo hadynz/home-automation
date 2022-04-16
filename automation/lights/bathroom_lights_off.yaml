@@ -1,7 +1,7 @@
 alias: bathroom_lights_off
 trigger:
   - platform: state
-    entity_id: binary_sensor.wyzesense_779B08BC # Bathroom motion sensor
+    entity_id: binary_sensor.aqara_master_bathroom_motion_sensor # Bathroom motion sensor
     to: 'off'
     for:
       minutes: 5

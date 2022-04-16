@@ -1,7 +1,7 @@
 alias: wardrobe_motion_lights_off
 trigger:
   - platform: state
-    entity_id: binary_sensor.wyzesense_7787b931 # Wardrobe motion sense
+    entity_id: binary_sensor.aqara_wardrobe_motion_sensor # Wardrobe motion sense
     to: 'off'
 action:
   - service: switch.turn_off

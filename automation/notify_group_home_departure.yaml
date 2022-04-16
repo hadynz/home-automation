@@ -4,6 +4,6 @@ trigger:
     entity_id: group.people
     to: 'not_home'
 action:
-  - service: notify.mobile_app_hady_s_iphonex
+  - service: notify.mobile_app_hady_s_iphone_xii
     data:
       message: 'Did both Dina and you just leave the house together?'

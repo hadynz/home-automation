@@ -1,7 +1,7 @@
 alias: bathroom_lights_on
 trigger:
   - platform: state
-    entity_id: binary_sensor.wyzesense_779B08BC # Bathroom motion sensor
+    entity_id: binary_sensor.aqara_master_bathroom_motion_sensor # Bathroom motion sensor
     to: 'on'
 action:
   - service: switch.turn_on

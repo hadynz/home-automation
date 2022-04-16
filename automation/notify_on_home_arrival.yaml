@@ -4,6 +4,6 @@ trigger:
     entity_id: person.hady_osman
     to: 'home'
 action:
-  - service: notify.mobile_app_hady_s_iphonex
+  - service: notify.mobile_app_hady_s_iphone_xii
     data:
       message: 'Looks like you just arrived? Welcome home!'

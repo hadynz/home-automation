@@ -1,7 +1,7 @@
 alias: garage_lights_off
 trigger:
   - platform: state
-    entity_id: binary_sensor.wyzesense_779B265D # Garage motion sensor
+    entity_id: binary_sensor.aqara_garage_motion_sensor # Garage motion sensor
     to: 'off'
     for:
       minutes: 5

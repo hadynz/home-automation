@@ -1,7 +1,7 @@
 alias: stairs_motion_lights_off
 trigger:
   - platform: state
-    entity_id: binary_sensor.wyzesense_779b23bf # Stairs motion sensor
+    entity_id: binary_sensor.aqara_stairs_motion_sensor # Stairs motion sensor
     to: 'off'
 action:
   - service: switch.turn_off

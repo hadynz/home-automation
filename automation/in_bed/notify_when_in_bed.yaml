@@ -4,6 +4,6 @@ trigger:
     entity_id: binary_sensor.in_bed
     to: 'on'
 action:
-  - service: notify.mobile_app_hady_s_iphonex
+  - service: notify.mobile_app_hady_s_iphone_xii
     data:
       message: 'Everyone is in bed'

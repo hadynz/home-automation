@@ -1,0 +1,11 @@
+alias: garage_lights_off_wfh
+trigger:
+  - platform: state
+    entity_id: input_boolean.wfh
+    to: 'off'
+    for:
+      minutes: 1
+action:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.aeon_labs_zw116_nano_switch_switch_2 # Garage lights

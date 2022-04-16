@@ -1,7 +1,7 @@
 alias: entrance_motion_lights_off
 trigger:
   - platform: state
-    entity_id: binary_sensor.wyzesense_779B044A # Entrance motion sensor
+    entity_id: binary_sensor.aqara_entrance_motion_sensor # Entrance motion sensor
     to: 'off'
 action:
   - service: switch.turn_off

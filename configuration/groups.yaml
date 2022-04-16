@@ -19,6 +19,5 @@ people:
     - device_tracker.dina_s_iphone # Phone GPS
     - device_tracker.dinas_iphone # Phone connection to router
 #    - device_tracker.life360_dina # Life 360
-    - device_tracker.hady_s_iphonex # Phone GPS
-    - device_tracker.hadys_iphonex # Phone connection to router
+    - device_tracker.hady_iphone_12_promax
 #    - device_tracker.life360_hady_osman # Life360
