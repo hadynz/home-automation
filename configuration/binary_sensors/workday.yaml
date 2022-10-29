@@ -1,0 +1,4 @@
+platform: workday
+country: NZ
+province: AUK
+workdays: [mon, tue, wed, thu, fri]
